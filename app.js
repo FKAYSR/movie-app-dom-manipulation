@@ -164,5 +164,4 @@ const movies = [
 console.log("Movies array:", movies);
 console.log("Antal movies:", movies.length);
 
-
-
+// 19c
