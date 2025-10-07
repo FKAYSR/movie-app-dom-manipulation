@@ -164,4 +164,20 @@ const movies = [
 console.log("Movies array:", movies);
 console.log("Antal movies:", movies.length);
 
+// Nu kan vi tilgå movies via array indeks
+console.log("Første movie:", movies[0]); // Barbie
+console.log("Anden movie:", movies[1]); // Dune
+console.log("Sidste movie:", movies[movies.length - 1]); // Inception
+
+// Test displayMovie med array elementer
+movieListContainer.innerHTML = ""; // Ryd først
+
+// Tilføj kun de første 3 movies via array indeks
+displayMovie(movies[0]); // Barbie
+displayMovie(movies[1]); // Dune
+displayMovie(movies[2]); // Dune: Part Two
+
+console.log("3 movies tilføjet via array indeks!");
+
+
 
