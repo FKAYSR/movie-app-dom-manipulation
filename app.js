@@ -52,7 +52,8 @@ const movies = [
     actors: ["Margot Robbie", "Ryan Gosling", "America Ferrera"],
     description:
       "Barbie and Ken embark on a journey of self-discovery after leaving the utopian Barbie Land for the real world.",
-  },
+  }, 
+  // Hver film er 1 element!
   {
     id: 2,
     title: "Dune",
@@ -146,18 +147,6 @@ const movies = [
     actors: ["Leonardo DiCaprio", "Cillian Murphy"],
     description:
       "Dom Cobb (Leonardo DiCaprio) is a thief with the rare ability to enter people's dreams and steal their secrets from their subconscious. His skill has made him a hot commodity in the world of corporate espionage but has also cost him everything he loves. Cobb gets a chance at redemption when he is offered a seemingly impossible task: Plant an idea in someone's mind. If he succeeds, it will be the perfect crime, but a dangerous enemy anticipates Cobb's every move.",
-  },
-  {
-    id: 9,
-    title: "PowerPuff Girls",
-    year: 2025,
-    genre: ["Power", "Puff"],
-    rating: 10,
-    director: "Puf",
-    image:
-      "https://m.media-amazon.com/images/M/MV5BODY3YjMyOTktZWFiZS00MGNkLWExZjUtYjJjYjljMGM1YWY4XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
-    actors: ["Blossom", "Bubbles", "Buttercup"],
-    description: "3 girls here to save the day!",
   }
 ];
 
@@ -178,6 +167,136 @@ displayMovie(movies[1]); // Dune
 displayMovie(movies[2]); // Dune: Part Two
 
 console.log("3 movies tilføjet via array indeks!");
+
+movieListContainer.innerHTML = ""; // Rydder
+
+// For-of loop - går gennem hver movie i arrayet - const element of iterable
+for (const movie of movies) {
+  displayMovie(movie);
+  console.log(`Tilføjet movie: ${movie.title}`);
+}
+
+console.log("Alle movies tilføjet via for-of loop! 🎉");
+
+
+// Den ultimative funktion - vis alle movies i ét kald!
+function displayMovies(movieArray) {
+  // Ryd container først
+  movieListContainer.innerHTML = "";
+
+  // Loop gennem alle movies og vis dem (bruger for-of loop!)
+  for (const movie of movieArray) {
+    displayMovie(movie);
+    console.log(`${movie.title} displayed`);
+  }
+
+  console.log(`🎉 ${movieArray.length} movies displayed successfully!`);
+}
+
+// Test den ultimative funktion
+displayMovies(movies);
+
+// Opret et nyt movie object
+const RACEFavoriteMovie = {
+  id: 9,
+  title: "The Matrix",
+  year: 1999,
+  genre: ["Action", "Sci-Fi"],
+  rating: 8.7,
+  directors: "Lana & Lilly Wachowski",
+  image: "https://m.media-amazon.com/images/I/51EG732BV3L._AC_.jpg",
+  actors: ["Keanu Reeves", "Laurence Fishburne", "Carrie-Anne Moss"],
+  description:
+    "A computer hacker learns about the true nature of his reality and his role in the war against its controllers."
+};
+
+// Tilføj til array og vis alle
+movies.push(RACEFavoriteMovie);
+displayMovies(movies);
+
+console.log(`Nu vises ${movies.length} movies!`);
+
+// ========== ASYNC MOVIE LOADER ==========
+
+async function loadMovies() {
+  console.log("🚀 Starter hentning af movie data...");
+
+  // Vent på at få response fra serveren
+  const response = await fetch("https://raw.githubusercontent.com/cederdorff/race/refs/heads/master/data/movies.json");
+
+  console.log("📡 Response modtaget:", response);
+  // Response (som set i console)
+  // status: 200,        // ← HTTP status (200 = success)
+  // ok: true,           // ← Alt gik godt
+  // url: "https://...", // ← URL der blev hentet fra
+
+  // Vent på at konvertere response til JavaScript objekter
+  const moviesFromJSON = await response.json();
+
+  console.log("🎬 Movies fra JSON:", moviesFromJSON);
+  console.log("📊 Antal movies:", moviesFromJSON.length);
+  console.log("🎭 Første movie:", moviesFromJSON[0]);
+
+  return moviesFromJSON;
+}
+
+// Kald funktionen
+loadMovies();
+
+function displayMovie(movieObject) {
+  // Konverter genre array til string
+  const genreString = movieObject.genre.join(", ");
+
+  const movieHTML = `
+    <article class="movie-card" tabindex="0">
+      <img src="${movieObject.image}" 
+           alt="Poster of ${movieObject.title}" 
+           class="movie-poster" />
+      <div class="movie-info">
+        <h3>${movieObject.title} <span class="movie-year">(${movieObject.year})</span></h3>
+        <p class="movie-genre">${genreString}</p>
+        <p class="movie-rating">⭐ ${movieObject.rating}</p>
+        <p class="movie-director"><strong>Director:</strong> ${movieObject.director}</p>
+      </div>
+    </article>
+  `;
+
+  movieListContainer.insertAdjacentHTML("beforeend", movieHTML);
+  console.log(`${movieObject.title} tilføjet fra JSON!`);
+}
+
+// Test din eksisterende funktion med JSON data
+async function testDisplayMovie() {
+  console.log("🧪 Tester displayMovie med JSON data...");
+
+  const response = await fetch("https://raw.githubusercontent.com/cederdorff/race/refs/heads/master/data/movies.json");
+  const moviesFromJSON = await response.json();
+
+  // Vis første movie som test
+  displayMovie(moviesFromJSON[0]);
+  console.log("✅ Test fuldført - det virkede!");
+}
+
+// Kør testen
+testDisplayMovie();
+
+// ========== DISPLAY ALL MOVIES ==========
+
+function displayMovies(movieArray) {
+  // Ryd container først
+  movieListContainer.innerHTML = "";
+
+  console.log(`🎬 Viser ${movieArray.length} movies...`);
+
+  // Loop gennem alle movies
+  for (const movie of movieArray) {
+    displayMovie(movie); // Samme funktion til alt!
+  }
+
+  console.log(`🎉 ${movieArray.length} movies vist successfully!`);
+}
+
+
 
 
 
