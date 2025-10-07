@@ -13,12 +13,26 @@
   <body>
     <header>
       <h1>Movie App</h1>
+      <p>Søg, filtrer og sortér dine yndlingsfilm</p>
     </header>
+
     <main>
+       <section class="filterbar">
+    <input id="search-input" type="search" placeholder="Søg film..." />
+    <select id="genre-select">
+      <option value="all">Alle genrer</option>
+      <!-- Genre options will be populated from JS -->
+    </select>
+    <select id="sort-select">
+      <option value="none">Ingen sortering</option>
+      <option value="title">Sortér: Titel (A-Å)</option>
+      <option value="year">Sortér: År (nyeste først)</option>
+      <option value="rating">Sortér: Rating (højeste først)</option>
+    </select>
+    </section>
       <!-- Movie List -->
-      <section id="movie-list">
+      <section id="movie-list" class="movie-grid">
         <!-- Tom container - klar til JavaScript! -->
-         
       </section>
     </main>
 
