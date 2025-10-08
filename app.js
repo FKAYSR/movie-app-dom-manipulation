@@ -18,7 +18,7 @@ function displayMovie(movieObject) {
       <div class="movie-info">
         <h3>${movieObject.title} <span class="movie-year">(${movieObject.year})</span></h3>
         <p class="movie-genre">${genreString}</p>
-        <p class="movie-rating">⭐ ${movieObject.rating}</p>
+        <p class="movie-rating">${movieObject.rating}</p>
         <p class="movie-director"><strong>Director:</strong> ${director}</p>
       </div>
     </article>
@@ -371,9 +371,14 @@ let allMovies = []; // Global array to hold all movies
 function initApp() {
   console.log("initApp: app.js is running 🎉");
   getMovies(); // Fetch and display movies
+
   document.querySelector("#search-input").addEventListener("input", filterMovies);
   document.querySelector("#genre-select").addEventListener("change", filterMovies);
   document.querySelector("#sort-select").addEventListener("change", filterMovies);
+  document.querySelector("#year-from").addEventListener("input", filterMovies);
+  document.querySelector("#year-to").addEventListener("input", filterMovies);
+  document.querySelector("#rating-from").addEventListener("input", filterMovies);
+  document.querySelector("#rating-to").addEventListener("input", filterMovies);
 }
 
 // #2: Fetch movies from JSON and display them
@@ -417,6 +422,18 @@ function filterMovies() {
   const genreValue = document.querySelector("#genre-select").value;
   const sortValue = document.querySelector("#sort-select").value;
 
+  // NYE år variable
+  const yearFrom = Number(document.querySelector("#year-from").value) || 0;
+  const yearTo = Number(document.querySelector("#year-to").value) || 9999;
+
+  console.log("År filter:", yearFrom, "til", yearTo);
+
+  // NYE rating variable
+  const ratingFrom = Number(document.querySelector("#rating-from").value) || 0;
+  const ratingTo = Number(document.querySelector("#rating-to").value) || 10;
+
+  console.log("Rating filter:", ratingFrom, "til", ratingTo);
+
   // Start med alle movies
   let filteredMovies = allMovies;
 
@@ -432,6 +449,35 @@ function filterMovies() {
     filteredMovies = filteredMovies.filter((movie) => {
       return movie.genre.includes(genreValue);
     });
+  }
+
+  // Tilføj EFTER genre filter, FØR sortering
+  // År range filter
+  if (yearFrom > 0 || yearTo < 9999) {
+    console.log("🎯Anvender år filter:", yearFrom, "-", yearTo);
+    const before = filteredMovies.length;
+
+    filteredMovies = filteredMovies.filter((movie) => {
+      return movie.year >= yearFrom && movie.year <= yearTo;
+    });
+
+    console.log("År filter:", before, "→", filteredMovies.length, "film");
+  } else {
+    console.log("Ingen år filter (alle år)");
+  }
+
+  // Rating range filter
+  if (ratingFrom > 0 || ratingTo < 10) {
+    console.log("Anvender rating filter:", ratingFrom, "-", ratingTo);
+    const before = filteredMovies.length;
+
+    filteredMovies = filteredMovies.filter((movie) => {
+      return movie.rating >= ratingFrom && movie.rating <= ratingTo;
+    });
+
+    console.log("Rating filter:", before, "→", filteredMovies.length, "film");
+  } else {
+    console.log("Ingen rating filter (alle ratings)");
   }
 
   // TRIN 3: Sorter resultater
