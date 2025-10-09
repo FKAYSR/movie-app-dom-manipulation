@@ -41,7 +41,6 @@ function displayMovie(movieObject) {
       showMovieDetails(movie);
     }
   });
-  
 }
 
 /* //#region Java
@@ -349,7 +348,9 @@ function displayMovies(movieArray) {
 // ========== MAIN ASYNC FUNCTION ==========
 
 async function loadMovies() {
-  const response = await fetch("https://raw.githubusercontent.com/cederdorff/race/refs/heads/master/data/movies.json");
+  const response = await fetch(
+    "https://raw.githubusercontent.com/cederdorff/race/refs/heads/master/data/movies.json"
+  );
   const moviesFromJSON = await response.json();
 
   console.log("📊 JSON data modtaget:", moviesFromJSON.length, "movies");
@@ -372,12 +373,20 @@ function initApp() {
   console.log("initApp: app.js is running 🎉");
   getMovies(); // Fetch and display movies
 
-  document.querySelector("#search-input").addEventListener("input", filterMovies);
-  document.querySelector("#genre-select").addEventListener("change", filterMovies);
-  document.querySelector("#sort-select").addEventListener("change", filterMovies);
+  document
+    .querySelector("#search-input")
+    .addEventListener("input", filterMovies);
+  document
+    .querySelector("#genre-select")
+    .addEventListener("change", filterMovies);
+  document
+    .querySelector("#sort-select")
+    .addEventListener("change", filterMovies);
   document.querySelector("#year-from").addEventListener("input", filterMovies);
   document.querySelector("#year-to").addEventListener("input", filterMovies);
-  document.querySelector("#rating-from").addEventListener("input", filterMovies);
+  document
+    .querySelector("#rating-from")
+    .addEventListener("input", filterMovies);
   document.querySelector("#rating-to").addEventListener("input", filterMovies);
 }
 
@@ -385,7 +394,9 @@ function initApp() {
 async function getMovies() {
   console.log("🌐 Henter alle movies fra JSON...");
 
-  const response = await fetch("https://raw.githubusercontent.com/cederdorff/race/refs/heads/master/data/movies.json");
+  const response = await fetch(
+    "https://raw.githubusercontent.com/cederdorff/race/refs/heads/master/data/movies.json"
+  );
   allMovies = await response.json();
   populateGenreDropdown();
   console.log("📊 JSON data modtaget:", allMovies.length, "movies");
@@ -508,7 +519,10 @@ function populateGenreDropdown() {
 
   const sortedGenres = Array.from(genres).sort();
   for (const genre of sortedGenres) {
-    genreSelect.insertAdjacentHTML("beforeend", `<option value="${genre}">${genre}</option>`);
+    genreSelect.insertAdjacentHTML(
+      "beforeend",
+      `<option value="${genre}">${genre}</option>`
+    );
   }
 }
 
@@ -529,6 +543,3 @@ function showMovieDetails(movie) {
 
   // TODO: Næste gang laver vi modal dialog!
 }
-
-
-
